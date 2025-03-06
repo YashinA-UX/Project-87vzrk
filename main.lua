@@ -1,4 +1,13 @@
--- Instances: 14 | Scripts: 2 | Modules: 0 | Tags: 0
+--[=[
+ d888b  db    db d888888b      .d888b.      db      db    db  .d8b.  
+88' Y8b 88    88   `88'        VP  `8D      88      88    88 d8' `8b 
+88      88    88    88            odD'      88      88    88 88ooo88 
+88  ooo 88    88    88          .88'        88      88    88 88~~~88 
+88. ~8~ 88b  d88   .88.        j88.         88booo. 88b  d88 88   88    @uniquadev
+ Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
+]=]
+
+-- Instances: 15 | Scripts: 3 | Modules: 0 | Tags: 0
 local G2L = {};
 
 -- StarterGui.ScreenGui
@@ -11,7 +20,7 @@ G2L["2"] = Instance.new("Frame", G2L["1"]);
 G2L["2"]["BorderSizePixel"] = 0;
 G2L["2"]["BackgroundColor3"] = Color3.fromRGB(125, 120, 128);
 G2L["2"]["Size"] = UDim2.new(0, 838, 0, 455);
-G2L["2"]["Position"] = UDim2.new(0.23393, 0, 0.11865, 0);
+G2L["2"]["Position"] = UDim2.new(0.18416, 0, 0.11865, 0);
 G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 
 
@@ -46,7 +55,7 @@ G2L["6"]["BackgroundTransparency"] = 1;
 G2L["6"]["Size"] = UDim2.new(0, 838, 0, 83);
 G2L["6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["6"]["Text"] = [[87vzrk Executor (Private, OP, support EVERY script.°]];
-G2L["6"]["Position"] = UDim2.new(-0.00477, 0, 0.07377, 0);
+G2L["6"]["Position"] = UDim2.new(-0.00477, 0, 0, 0);
 
 
 -- StarterGui.ScreenGui.Frame.Frame.TextBox
@@ -118,6 +127,11 @@ G2L["e"] = Instance.new("LocalScript", G2L["c"]);
 G2L["e"]["Name"] = [[clear]];
 
 
+-- StarterGui.ScreenGui.Frame.Smooth GUI Dragging
+G2L["f"] = Instance.new("LocalScript", G2L["2"]);
+G2L["f"]["Name"] = [[Smooth GUI Dragging]];
+
+
 -- StarterGui.ScreenGui.Frame.Frame.TextButton.LocalScript
 local function C_b()
 local script = G2L["b"];
@@ -143,5 +157,63 @@ local script = G2L["e"];
 	
 end;
 task.spawn(C_e);
+-- StarterGui.ScreenGui.Frame.Smooth GUI Dragging
+local function C_f()
+local script = G2L["f"];
+	local UserInputService = game:GetService("UserInputService")
+	local runService = (game:GetService("RunService"));
+	
+	local gui = script.Parent
+	
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
+	
+	function Lerp(a, b, m)
+		return a + (b - a) * m
+	end;
+	
+	local lastMousePos
+	local lastGoalPos
+	local DRAG_SPEED = (8); -- // The speed of the UI darg.
+	function Update(dt)
+		if not (startPos) then return end;
+		if not (dragging) and (lastGoalPos) then
+			gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, lastGoalPos.X.Offset, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, lastGoalPos.Y.Offset, dt * DRAG_SPEED))
+			return 
+		end;
+	
+		local delta = (lastMousePos - UserInputService:GetMouseLocation())
+		local xGoal = (startPos.X.Offset - delta.X);
+		local yGoal = (startPos.Y.Offset - delta.Y);
+		lastGoalPos = UDim2.new(startPos.X.Scale, xGoal, startPos.Y.Scale, yGoal)
+		gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, xGoal, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
+	end;
+	
+	gui.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			dragStart = input.Position
+			startPos = gui.Position
+			lastMousePos = UserInputService:GetMouseLocation()
+	
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	
+	gui.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+	
+	runService.Heartbeat:Connect(Update)
+end;
+task.spawn(C_f);
 
 return G2L["1"], require;
