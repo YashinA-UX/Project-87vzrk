@@ -115,7 +115,7 @@ local FlyButton = PremadeTab:CreateButton({
     Name = "Fly V3",
     Callback = function()
         --loads the fly script from the provided github raw link.
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/YashinA-UX/Project-87vzrk/refs/heads/main/project%2087vzrk%20loadstring"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
         game.StarterGui:SetCore("SendNotification", { Title = "87vzrk Private Hub"; Text = "Fly V3 Loaded!"; Duration = 5; })
 
     end,
