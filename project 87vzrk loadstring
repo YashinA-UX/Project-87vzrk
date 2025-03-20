@@ -4,7 +4,7 @@ local Window = Rayfield:CreateWindow({
    Name = "87vzrk Association Hub, MORE COMING SOON!",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
    LoadingTitle = "87vzrk Association Hub",
-   LoadingSubtitle = "By SolowwPrime | Loading your awesome experience!",
+   LoadingSubtitle = "By SolowwPrime | Loading..",
    Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
    DisableRayfieldPrompts = false,
@@ -38,7 +38,7 @@ local Window = Rayfield:CreateWindow({
 
  local Slider = PlayerTab:CreateSlider({
     Name = "WalkSpeed",
-    Range = {1, 10},
+    Range = {1, 1000},
     Increment = 1,
     Suffix = "Speed",
     CurrentValue = 10,
